@@ -2,8 +2,10 @@ from PyQt5.QtGui import *
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import LED_program  as progList
-#from LED_program import * as progList
+import LED_program as progList
+#import LED_program
+from LED_program import prog_01
+import led_strip_driver as led_driver
 
 
 color_LED_on = "#888800"
@@ -37,6 +39,10 @@ class MainWindow(QMainWindow):
         self.xLED_size = 30
         self.yLED_size = 15
 #        self.yLED_size = 15
+        self.ledStripLenght = 450
+        self.deltaTime = 500
+
+
         self.initUI()
 
         #self._timer = QTimer()
@@ -144,6 +150,13 @@ class MainWindow(QMainWindow):
 
     def btn_start_clicked(self):
         print("btn start clicked.")
+        listW = self.findChild(QListWidget, "SelectedProgList")
+        programName = progList.program_List[listW.currentRow()]["progName"]
+        #prog = programName()
+        #prog = progList.programName(self.ledStripLenght, self.deltaTime)
+        #prog = progList.prog_01(self.ledStripLenght, self.deltaTime)
+        prog = prog_01(self.ledStripLenght, self.deltaTime)
+        prog.execute()
 
     def btn_pause_clicked(self):
         print("btn pause clicked.")
