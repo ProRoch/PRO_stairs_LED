@@ -1,12 +1,11 @@
 from PyQt5.QtGui import *
-
+import sys
+import types
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import LED_program as progList
-#import LED_program
-from LED_program import prog_01
-import led_strip_driver as led_driver
+from LED_program import *
 
+import led_strip_driver as led_driver
 
 color_LED_on = "#888800"
 
@@ -42,8 +41,9 @@ class MainWindow(QMainWindow):
         self.ledStripLenght = 450
         self.deltaTime = 500
 
-
         self.initUI()
+
+        self.progClassHolder = initClassHolder()
 
         #self._timer = QTimer()
         #self._timer.timeout.connect(self.update_timer)
@@ -134,7 +134,7 @@ class MainWindow(QMainWindow):
 
     def prog_list_update(self):
         listW =self.findChild(QListWidget,"SelectedProgList")
-        desc = progList.program_List[listW.currentRow()]["description"]
+        desc = program_List[listW.currentRow()]["description"]
         txtB = self.findChild(QPlainTextEdit, "txtB_Description")
         txtB.setPlaceholderText(desc)
 
@@ -142,7 +142,7 @@ class MainWindow(QMainWindow):
 
     def initWidgets(self):
         listW =self.findChild(QListWidget,"SelectedProgList")
-        for prog in progList.program_List :
+        for prog in program_List :
             listW.addItem(prog["name"])
 
     def btn_load_prog_clicked(self):
@@ -151,18 +151,28 @@ class MainWindow(QMainWindow):
     def btn_start_clicked(self):
         print("btn start clicked.")
         listW = self.findChild(QListWidget, "SelectedProgList")
-        programName = progList.program_List[listW.currentRow()]["progName"]
-        #prog = programName()
-        #prog = progList.programName(self.ledStripLenght, self.deltaTime)
-        #prog = progList.prog_01(self.ledStripLenght, self.deltaTime)
-        prog = prog_01(self.ledStripLenght, self.deltaTime)
-        prog.execute()
+        programName = program_List[listW.currentRow()]["progName"]
+
+        currProg = self.progClassHolder[programName](self.ledStripLenght, self.deltaTime)
+        currProg.execute()
+
+
 
     def btn_pause_clicked(self):
         print("btn pause clicked.")
 
     def btn_stop_clicked(self):
         print("btn stop clicked.")
+
+    class ClassHolder(object):
+        def __init__(self):
+            self.classes = {}
+
+        def add_class(self, c):
+            self.classes[c.__name__] = c
+
+        def __getitem__(self, n):
+            return self.classes[n]
 
 if __name__ == '__main__':
     app = QApplication([])
