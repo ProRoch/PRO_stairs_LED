@@ -6,6 +6,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="minesweeper" />
     <orderEntry type="module" module-name="paint" />
+    <orderEntry type="module" module-name="paint" />
+    <orderEntry type="module" module-name="paint" />
+    <orderEntry type="module" module-name="Adafruit_CircuitPython_NeoPixel" />
   </component>
   <component name="TestRunnerService">
     <option name="PROJECT_TEST_RUNNER" value="Unittests" />

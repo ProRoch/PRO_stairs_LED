@@ -4,7 +4,6 @@ import types
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from LED_program import *
-
 import led_strip_driver as led_driver
 
 color_LED_on = "#888800"

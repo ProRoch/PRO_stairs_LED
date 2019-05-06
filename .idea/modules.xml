@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Adafruit_CircuitPython_NeoPixel/.idea/Adafruit_CircuitPython_NeoPixel.iml" filepath="$PROJECT_DIR$/../Adafruit_CircuitPython_NeoPixel/.idea/Adafruit_CircuitPython_NeoPixel.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PRO_stairs_LED.iml" filepath="$PROJECT_DIR$/.idea/PRO_stairs_LED.iml" />
       <module fileurl="file://$PROJECT_DIR$/../15-minute-apps/minesweeper/.idea/minesweeper.iml" filepath="$PROJECT_DIR$/../15-minute-apps/minesweeper/.idea/minesweeper.iml" />
       <module fileurl="file://$PROJECT_DIR$/../15-minute-apps/paint/.idea/paint.iml" filepath="$PROJECT_DIR$/../15-minute-apps/paint/.idea/paint.iml" />

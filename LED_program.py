@@ -1,5 +1,6 @@
 import os
-
+from led_strip_driver import NeoPixel
+from PyQt5.QtWidgets import *
 
 program_List = []
 program = {"name":"running light", "description": "one led moving from begin to end", "progName": "prog_01"}
@@ -41,6 +42,9 @@ class LedProgram:
 class prog_01(LedProgram):
     def __init__(self, lenght, deltaTime):
         super(prog_01, self).__init__(lenght, deltaTime)
+        LED_matrix = []
+        for i in range(lenght):
+            LED_matrix.append(0x0000FF)
 
     def execute(self):
         print("Prog_1 just started.")
@@ -51,6 +55,8 @@ class prog_02(LedProgram):
         print("se jestem prog-02")
     def execute(self):
         print("Prog_2 just started.")
+        #strip = NeoPixel()
+
 
 
 class prog_03(LedProgram):
@@ -59,3 +65,13 @@ class prog_03(LedProgram):
         print("se jestem prog-03")
     def execute(self):
         print("Prog_3 just started.")
+
+        strip = NeoPixel(11, 450, 3, 1.0, False, "RGB")
+        strip._set_item(61,0x00AA00)
+        y = 61 / self.xlenght
+        x = 61 % self.xlenght
+        value = strip[61]
+        btn = self.findChild(QPushButton, f"{str(y)}_{str(x)}_button")
+        print("================>>>>>>>>>#{va}")
+        btn.setStyleSheet("background-color: %s" % (str(value)))
+        btn.update()
