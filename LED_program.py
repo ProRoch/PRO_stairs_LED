@@ -51,27 +51,27 @@ class prog_01(LedProgram):
 
 class prog_02(LedProgram):
     def __init__(self, lenght, deltaTime):
-        super(prog_01, self).__init__(lenght, deltaTime)
+        super(prog_02, self).__init__(lenght, deltaTime)
         print("se jestem prog-02")
+
     def execute(self):
         print("Prog_2 just started.")
-        #strip = NeoPixel()
+        strip = NeoPixel(11, 450, 3, 1.0, False, "RGB")
+        strip._set_item(61,0xAA0000)
+        strip.show()
 
 
 
 class prog_03(LedProgram):
     def __init__(self, lenght, deltaTime):
-        super(prog_01, self).__init__(lenght, deltaTime)
+        super(prog_03, self).__init__(lenght, deltaTime)
         print("se jestem prog-03")
+
+
     def execute(self):
         print("Prog_3 just started.")
 
         strip = NeoPixel(11, 450, 3, 1.0, False, "RGB")
         strip._set_item(61,0x00AA00)
-        y = 61 / self.xlenght
-        x = 61 % self.xlenght
-        value = strip[61]
-        btn = self.findChild(QPushButton, f"{str(y)}_{str(x)}_button")
-        print("================>>>>>>>>>#{va}")
-        btn.setStyleSheet("background-color: %s" % (str(value)))
-        btn.update()
+        strip.show()
+

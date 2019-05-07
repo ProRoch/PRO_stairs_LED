@@ -1,3 +1,4 @@
+import config as cfg
 from PyQt5.QtGui import *
 import sys
 import types
@@ -5,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from LED_program import *
 import led_strip_driver as led_driver
+
 
 color_LED_on = "#888800"
 
@@ -34,10 +36,11 @@ class MainWindow(QMainWindow):
         self.top = 300
         self.width = 1000
         self.height = 400
-        self.xLED_size = 30
-        self.yLED_size = 15
+        self.xLED_size = 3
+#        self.xLED_size = 30
 #        self.yLED_size = 15
-        self.ledStripLenght = 450
+        self.yLED_size = 2
+        self.ledStripLenght =  self.xLED_size * self.yLED_size
         self.deltaTime = 500
 
         self.initUI()
@@ -114,19 +117,36 @@ class MainWindow(QMainWindow):
         layout.setHorizontalSpacing(5)
         layout.setVerticalSpacing(30)
 
-        for x in range(0, self.xLED_size):
-            for y in range(0, self.yLED_size):
+        for y in range(self.yLED_size, 0, -1):
+            for x in range(0, self.xLED_size):
                 btn = QPushButton(f"oXo")
                 btn.setText(".")
                 btn.setObjectName(f"{str(y)}_{str(x)}_button")
+                print(btn.objectName())
                 btn.setMinimumSize(QSize(15, 15))
                 btn.setMaximumSize(QSize(15, 15))
                 btn.setAutoFillBackground(True)
                 btn.setStyleSheet("background-color: %s" % (color_LED_on))
                 btn.update()
+                cfg.uiButtonTable.append(btn)
                 layout.addWidget(btn, y, x)
         self.horizontalGroupBox = QGroupBox("Grid od LED block")
         self.horizontalGroupBox.setLayout(layout)
+
+        print("==================")
+        for y in range(1, self.yLED_size + 1):
+            for x in range(0, self.xLED_size):
+                print(f"{str(y)}_{str(x)}_button==============")
+                #btn_ = self.findChild(QPushButton, f"{str(y)}_{str(x)}_button")
+                btn =  getattr(self,("1_2_button"))
+
+                print(btn.objectName())
+#                global uiButtonTable
+#                #cfg.uiButtonTable.append(btn)
+#                cfg.uiButtonTable.append(self.findChild(QPushButton, f"{str(y)}_{str(x)}_button"))
+
+
+
 
     def update_timer(self):
         buttonReply = QMessageBox.question(self, 'PyQt5 message', "Do you want to save?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)

@@ -1,4 +1,5 @@
 #from PRO_stairs_LED import MainWindow
+import config as cfg
 from PyQt5.QtWidgets import *
 
 
@@ -43,10 +44,11 @@ class NeoPixel:
             pixels[::2] = [RED] * (len(pixels) // 2)
             time.sleep(2)
     """
-    def __init__(self, pin, n, *, bpp=3, brightness=1.0, auto_write=True, pixel_order=None):
+    def __init__(self, pin, n, bpp=3, brightness=1.0, auto_write=True, pixel_order=None):
         self.pin = pin
+        self.stripTab = []
         for i in range(n):
-            self.stripTab = 0x000000
+            self.stripTab.append(0x000000)
         self.bpp = bpp
         self.brightness = brightness
         self.auto_write = auto_write
@@ -71,13 +73,9 @@ class NeoPixel:
         """ magics happenig. Find pushButton on mainWindows and change color"""
         if self.brightness > 0.99:
             for i in range(len(self.stripTab)):
-                y= i / self.xlenght
-                x= i % self.xlenght
-                value = self.stripTab[i]
-                btn = self.findChild(QPushButton, f"{str(y)}_{str(x)}_button")
-                print("================>>>>>>>>>#{va}")
-                btn.setStyleSheet("background-color: %s" % (str(value)))
-                btn.update()
+                global uiButtonTable
+                cfg.uiButtonTable[i].setStyleSheet("background-color: %s" % (str(self.stripTab[i])))
+                cfg.uiButtonTable[i].update()
         else:
             pass
 
