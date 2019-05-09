@@ -2,7 +2,6 @@ import config as cfg
 from PyQt5.QtGui import *
 import sys
 import types
-        #from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from LED_program import *
@@ -82,7 +81,6 @@ class MainWindow(QMainWindow):
         txtb.setMaximumHeight(200)
         #
         hLayout_control_btn = QHBoxLayout()
-
         btn = QPushButton("Start")
         btn.setObjectName("btn_Start")
         btn.clicked.connect(self.btn_start_clicked)
@@ -95,6 +93,7 @@ class MainWindow(QMainWindow):
         btn.setObjectName("btn_Stop")
         btn.clicked.connect(self.btn_stop_clicked)
         hLayout_control_btn.addWidget(btn)
+
 
 
         vLayout_Config.addWidget(qle)
@@ -114,40 +113,25 @@ class MainWindow(QMainWindow):
         self.show()
 
         print("==================")
-
+        global uiButtonTable
+        for y in range(self.yLED_size, 0, -1):
+            for x in range(0, self.xLED_size):
+                name_b = f"{str(y)}_{str(x)}_button"
+                button = self.findChild(QPushButton, name_b)
+                cfg.uiButtonTable.append(button)
+        print("from table")
+        cfg.uiButtonTable[0].objectName()
+        cfg.uiButtonTable[1].objectName()
+        cfg.uiButtonTable[2].objectName()
+        cfg.uiButtonTable[3].objectName()
+                # btn =  getattr(self,("1_2_button"))
+#        for i in range(len(cfg.uiButtonTable)):
+#            print(cfg.uiButtonTable[i].objectName())
 
 
 
     def createGridLayout(self):
         layout = QGridLayout()
-        view = QGraphicsView()
-        layout.addWidget( view )
-        scene = QGraphicsScene()
-        view.setScene(scene)
-
-        my_pen = QPen(Qt.green)
-        my_brush = QBrush(QBrush(Qt.red))
-        side = 30
-        side1 = 20
-        side2 = 20
-
-        color = QColor(180, 174, 185)
-        brush = QBrush(color)
-
-
-        graphRec = QGraphicsRectItem(10,10,200,200)
-        scene.addItem(graphRec)
-
-        for i in range(30):
-            for j in range(15):
-                #r = QRect(QPoint(i * side, j * side), QSize(side1, side2))
-                r = QRectF(QPointF(i * side, j * side), QSizeF(side1, side2))
-
-                scene.addRect(r, my_pen)
-
-        self.horizontalGroupBox = QGroupBox("Grid od LED block")
-        self.horizontalGroupBox.setLayout(layout)
-        """
         layout.setColumnStretch(1, 4)
         layout.setColumnStretch(2, 4)
         layout.setHorizontalSpacing(5)
@@ -169,8 +153,9 @@ class MainWindow(QMainWindow):
                     btn.setStyleSheet("background-color: %s" % ("#00FF00"))
                 btn.update()
                 layout.addWidget(btn, y, x)
-                
-        """
+        self.horizontalGroupBox = QGroupBox("Grid od LED block")
+        self.horizontalGroupBox.setLayout(layout)
+
 
     def update_timer(self):
         buttonReply = QMessageBox.question(self, 'PyQt5 message', "Do you want to save?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)

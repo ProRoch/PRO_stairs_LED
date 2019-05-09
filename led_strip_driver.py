@@ -68,14 +68,15 @@ class NeoPixel:
             raise IndexError
         return self.stripTab[index]
 
-
     def show(self):
         """ magics happenig. Find pushButton on mainWindows and change color"""
+        print(" ===== I am in show function ----")
         if self.brightness > 0.99:
             for i in range(len(self.stripTab)):
                 global uiButtonTable
-                cfg.uiButtonTable[i].setStyleSheet("background-color: %s" % (str(self.stripTab[i])))
-                cfg.uiButtonTable[i].update()
+                for i in range(len(cfg.uiButtonTable)):
+                    cfg.uiButtonTable[i].setStyleSheet("background-color: %s" % ("#{:0>6}".format(hex(cfg.ledStripLine.stripTab[i]).replace('0x',''))))
+                    #cfg.uiButtonTable[i].update()
         else:
             pass
 
