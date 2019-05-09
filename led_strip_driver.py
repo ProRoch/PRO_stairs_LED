@@ -1,6 +1,9 @@
 #from PRO_stairs_LED import MainWindow
 import config as cfg
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 
 
 class NeoPixel:
@@ -72,11 +75,29 @@ class NeoPixel:
         """ magics happenig. Find pushButton on mainWindows and change color"""
         print(" ===== I am in show function ----")
         if self.brightness > 0.99:
-            for i in range(len(self.stripTab)):
-                global uiButtonTable
-                for i in range(len(cfg.uiButtonTable)):
-                    cfg.uiButtonTable[i].setStyleSheet("background-color: %s" % ("#{:0>6}".format(hex(cfg.ledStripLine.stripTab[i]).replace('0x',''))))
-                    #cfg.uiButtonTable[i].update()
+#            for i in range(len(self.stripTab)):
+            global myGrapicsScene
+            cfg.myGrapicsScene.clear()
+            # add some items
+            x = 0
+            y = 0
+            w = 20
+            h = 20
+            #pen = QPen(QColor(Qt.red))
+            pen = QPen(QColor(0xffaa00))
+            brush = QBrush(pen.color().darker(100))
+
+            for xi in range(30):
+                for yi in range(15):
+                    item = callbackRect(x + xi * 30, y + yi * 30, w, h)
+                    print(self.stripTab[xi+yi*30])
+                    pen = QPen(QColor(self.stripTab[xi+yi*30]))
+                    brush = QBrush(pen.color().darker(100))
+                    item.setPen(pen)
+                    item.setBrush(brush)
+                    cfg.myGrapicsScene.addItem(item)
+
+
         else:
             pass
 
@@ -99,3 +120,22 @@ class NeoPixel:
             self.show()
         self.auto_write = auto_write
 
+
+class callbackRect(QGraphicsRectItem):
+    '''
+    Rectangle call-back class.
+    '''
+
+    def mouseReleaseEvent(self, event ):
+        # recolor on click
+        color = QColor(180, 00, 20)
+        brush = QBrush(color)
+        QGraphicsRectItem.setBrush(self, brush)
+
+        #return QGraphicsRectItem.mouseReleaseEvent(self, event)
+        return QGraphicsRectItem(self)
+
+    def hoverMoveEvent(self, event):
+        # Do your stuff here.
+        print("jestem w hoverMoveEvent")
+        pass
