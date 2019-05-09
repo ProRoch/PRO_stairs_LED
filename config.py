@@ -1,3 +1,4 @@
 
 uiButtonTable = []
 ledStripLine = []
+myGrapicsScene = False

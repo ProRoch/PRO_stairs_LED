@@ -123,54 +123,31 @@ class MainWindow(QMainWindow):
         view = QGraphicsView()
         layout.addWidget( view )
         scene = QGraphicsScene()
+
         view.setScene(scene)
-
-        my_pen = QPen(Qt.green)
-        my_brush = QBrush(QBrush(Qt.red))
-        side = 30
-        side1 = 20
-        side2 = 20
-
-        color = QColor(180, 174, 185)
-        brush = QBrush(color)
-
-
         graphRec = QGraphicsRectItem(10,10,200,200)
         scene.addItem(graphRec)
 
-        for i in range(30):
-            for j in range(15):
-                #r = QRect(QPoint(i * side, j * side), QSize(side1, side2))
-                r = QRectF(QPointF(i * side, j * side), QSizeF(side1, side2))
+        # add some items
+        x = 0
+        y = 0
+        w = 20
+        h = 20
+        pen = QPen(QColor(Qt.green))
+        brush = QBrush(pen.color().darker(150))
 
-                scene.addRect(r, my_pen)
-
+        for xi in range(30):
+            for yi in range(15):
+                item = callbackRect(x + xi * 30, y + yi * 30, w, h)
+                item.setPen(pen)
+                item.setBrush(brush)
+                scene.addItem(item)
+        cfg.myGrapicsScene = scene
         self.horizontalGroupBox = QGroupBox("Grid od LED block")
         self.horizontalGroupBox.setLayout(layout)
-        """
-        layout.setColumnStretch(1, 4)
-        layout.setColumnStretch(2, 4)
-        layout.setHorizontalSpacing(5)
-        layout.setVerticalSpacing(30)
 
-        for y in range(self.yLED_size,0,-1 ):
-            for x in range(0, self.xLED_size):
-                btn = QPushButton(f"oXo")
-                btn.setText(".")
-                btn.setObjectName(f"{str(y)}_{str(x)}_button")
-                btn.setMinimumSize(QSize(15, 15))
-                btn.setMaximumSize(QSize(15, 15))
-                btn.setAutoFillBackground(True)
-                if y==4:
-                    btn.setStyleSheet("background-color: %s" % (color_LED_on))
-                elif y==3:
-                    btn.setStyleSheet("background-color: %s" % ("#0000FF"))
-                else:
-                    btn.setStyleSheet("background-color: %s" % ("#00FF00"))
-                btn.update()
-                layout.addWidget(btn, y, x)
-                
-        """
+
+
 
     def update_timer(self):
         buttonReply = QMessageBox.question(self, 'PyQt5 message', "Do you want to save?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel, QMessageBox.Cancel)
@@ -216,6 +193,25 @@ class MainWindow(QMainWindow):
 
         def __getitem__(self, n):
             return self.classes[n]
+
+class callbackRect(QGraphicsRectItem):
+    '''
+    Rectangle call-back class.
+    '''
+
+    def mouseReleaseEvent(self, event ):
+        # recolor on click
+        color = QColor(180, 174, 185)
+        brush = QBrush(color)
+        QGraphicsRectItem.setBrush(self, brush)
+
+        #return QGraphicsRectItem.mouseReleaseEvent(self, event)
+        return QGraphicsRectItem(self)
+
+    def hoverMoveEvent(self, event):
+        # Do your stuff here.
+        print("jestem w hoverMoveEvent")
+        pass
 
 if __name__ == '__main__':
     app = QApplication([])

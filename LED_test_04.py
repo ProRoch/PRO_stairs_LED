@@ -28,7 +28,7 @@ class MyFrame(QGraphicsView):
                 item.setBrush(brush)
                 self.scene().addItem(item)
 
-        # item = self.scene().addEllipse(x, y, w, h, pen, brush)
+         #item = self.scene().addEllipse(x, y, w, h, pen, brush)
 
 
         item.setFlag(QGraphicsItem.ItemIsMovable)
@@ -44,11 +44,13 @@ class callbackRect(QGraphicsRectItem):
         brush = QBrush(color)
         QGraphicsRectItem.setBrush(self, brush)
 
-        return QGraphicsRectItem.mouseReleaseEvent(self, event)
+        #return QGraphicsRectItem.mouseReleaseEvent(self, event)
+        return QGraphicsRectItem(self)
 
-    def hoverMoveEvent(self, event):
-        # Do your stuff here.
-        pass
+#    def hoverMoveEvent(self, event):
+#        # Do your stuff here.
+#        print("jestem w hoverMoveEvent")
+#        pass
 
 if ( __name__ == '__main__' ):
     app = QApplication([])
