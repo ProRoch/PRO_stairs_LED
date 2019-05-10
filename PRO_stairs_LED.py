@@ -125,23 +125,23 @@ class MainWindow(QMainWindow):
         scene = QGraphicsScene()
 
         view.setScene(scene)
-        graphRec = QGraphicsRectItem(10,10,200,200)
-        scene.addItem(graphRec)
-
-        # add some items
-        x = 0
-        y = 0
-        w = 20
-        h = 20
         pen = QPen(QColor(Qt.green))
         brush = QBrush(pen.color().darker(150))
-
+        global mySingleLedShape, myItemTab, myLedWith, myLedHight, myLedDeltaX, myLedDeltaY
         for xi in range(30):
             for yi in range(15):
-                item = callbackRect(x + xi * 30, y + yi * 30, w, h)
+                if cfg.mySingleLedShape == 0:
+                    item = QGraphicsRectItem(xi * cfg.myLedDeltaX, yi * cfg.myLedDeltaY, cfg.myLedWith, cfg.myLedHight)
+                    #item.setFlag(QGraphicsItem.ItemIsSelectable)
+                    #item.setFlag(QGraphicsItem.ItemIsMovable)
+                    #item.setFlag(QGraphicsItem.ItemIsFocusable)
+                else:
+                    item = QGraphicsEllipseItem(xi * cfg.myLedDeltaX, yi * cfg.myLedDeltaY, cfg.myLedWith, cfg.myLedHight)
                 item.setPen(pen)
                 item.setBrush(brush)
                 scene.addItem(item)
+                cfg.myItemTab.append(item)
+
         cfg.myGrapicsScene = scene
         self.horizontalGroupBox = QGroupBox("Grid od LED block")
         self.horizontalGroupBox.setLayout(layout)
@@ -194,24 +194,6 @@ class MainWindow(QMainWindow):
         def __getitem__(self, n):
             return self.classes[n]
 
-class callbackRect(QGraphicsRectItem):
-    '''
-    Rectangle call-back class.
-    '''
-
-    def mouseReleaseEvent(self, event ):
-        # recolor on click
-        color = QColor(180, 174, 185)
-        brush = QBrush(color)
-        QGraphicsRectItem.setBrush(self, brush)
-
-        #return QGraphicsRectItem.mouseReleaseEvent(self, event)
-        return QGraphicsRectItem(self)
-
-    def hoverMoveEvent(self, event):
-        # Do your stuff here.
-        print("jestem w hoverMoveEvent")
-        pass
 
 if __name__ == '__main__':
     app = QApplication([])

@@ -1,3 +1,7 @@
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+
+
 import os
 from led_strip_driver import NeoPixel
 import config as cfg
@@ -9,6 +13,8 @@ program_List.append(program)
 program = {"name":"step by step: UP", "description": "single step lighting one by one in UP direction", "progName": "prog_02"}
 program_List.append(program)
 program = {"name":"step by step: DOWN", "description": "single step lighting one by one in DOWN direction", "progName": "prog_03"}
+program_List.append(program)
+program = {"name":"single test action", "description": "single test action for temporary check", "progName": "prog_30"}
 program_List.append(program)
 
 cfg.ledStripLine = NeoPixel(11, 450, 3, 1.0, False, "RGB")
@@ -29,6 +35,7 @@ def initClassHolder():
     list_Classes.add_class(prog_01)
     list_Classes.add_class(prog_02)
     list_Classes.add_class(prog_03)
+    list_Classes.add_class(prog_30)
     return list_Classes
 
 
@@ -79,8 +86,22 @@ class prog_30(LedProgram):
 
 
     def execute(self):
-        print("Prog_3 just started.")
-        cfg.uiButtonTable[3].setStyleSheet("background-color: %s" % (hex(cfg.ledStripLine.stripTab[3]).replace('0x', '#')))
-        cfg.uiButtonTable[3].update()
+        print("Prog_30 just started.")
+        #pen = QPen(QColor(0x112233))
+        #brush = QBrush(pen.color().darker(100))
+        #cfg.myItemTab[1].setPen(pen)
+        #cfg.myItemTab[1].setBrush(brush)
+        pen2 = QPen(QColor(Qt.yellow))
+        brush2 = QBrush(pen2.color().darker(150))
+        cfg.myItemTab[1].setPen(pen2)
+        cfg.myItemTab[1].setBrush(brush2)
+        """
+        cfg.myItemTab[1].setFlag(QGraphicsItem.ItemIsSelectable)
+        cfg.myItemTab[1].setFlag(QGraphicsItem.ItemIsMovable)
+        cfg.myItemTab[1].setFlag(QGraphicsItem.ItemIsFocusable)
 
-
+        cfg.myItemTab[2].setFlag(QGraphicsItem.ItemIsMovable)
+        cfg.myItemTab[3].setFlag(QGraphicsItem.ItemIsMovable)
+        cfg.myItemTab[4].setFlag(QGraphicsItem.ItemIsMovable)
+        cfg.myItemTab[5].setFlag(QGraphicsItem.ItemIsMovable)
+        """
