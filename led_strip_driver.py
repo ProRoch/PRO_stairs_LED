@@ -76,12 +76,12 @@ class NeoPixel:
         print(" ===== I am in show function ----")
         if self.brightness > 0.99:
             global myItemTab
-            for i in range(len(cfg.myItemTab)):
+            for i in range(len(cfg.myItemTabHandler)):
                 pen = QPen(QColor(self.stripTab[i]))
                 brush = QBrush(pen.color())
                 #brush = QBrush(pen.color().darker(100))
-                cfg.myItemTab[i].setPen(pen)
-                cfg.myItemTab[i].setBrush(brush)
+                cfg.myItemTabHandler[i].setPen(pen)
+                cfg.myItemTabHandler[i].setBrush(brush)
 
 
         else:

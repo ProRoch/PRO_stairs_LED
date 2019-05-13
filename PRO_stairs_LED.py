@@ -35,11 +35,11 @@ class MainWindow(QMainWindow):
         self.title = 'PyQt5 layout - Stairs LEDs lighting.'
         self.left = 100
         self.top = 300
-        self.width = 1000
-        self.height = 400
+        self.width = 1200
+        self.height = 600
 #        self.xLED_size = 3
-        self.xLED_size = 30
-        self.yLED_size = 15
+        self.xLED_size = cfg.myLedInSingleRow
+        self.yLED_size = cfg.myLedRow
 #        self.yLED_size = 4
         self.ledStripLenght =  self.xLED_size * self.yLED_size
         self.deltaTime = 500
@@ -121,17 +121,21 @@ class MainWindow(QMainWindow):
     def createGridLayout(self):
         layout = QGridLayout()
         view = QGraphicsView()
-        layout.addWidget( view )
         scene = QGraphicsScene()
-
         view.setScene(scene)
+        layout.addWidget( view )
+        view.setMinimumWidth(cfg.myLedInSingleRow*  cfg.myLedDeltaX +  cfg.myLedDeltaX)
+        view.setMinimumHeight(cfg.myLedRow * cfg.myLedDeltaY + cfg.myLedDeltaY)
+
         pen = QPen(QColor(Qt.green))
         brush = QBrush(pen.color().darker(150))
         global mySingleLedShape, myItemTab, myLedWith, myLedHight, myLedDeltaX, myLedDeltaY
-        for xi in range(30):
-            for yi in range(15):
+        for yi in range(cfg.myLedRow):
+            for xi in range(cfg.myLedInSingleRow):
                 if cfg.mySingleLedShape == 0:
-                    item = QGraphicsRectItem(xi * cfg.myLedDeltaX, yi * cfg.myLedDeltaY, cfg.myLedWith, cfg.myLedHight)
+                    item = QGraphicsRectItem( (cfg.myLedInSingleRow* cfg.myLedDeltaX)- xi * cfg.myLedDeltaX,
+                                              (cfg.myLedRow* cfg.myLedDeltaY)-yi * cfg.myLedDeltaY,
+                                              cfg.myLedWith, cfg.myLedHight)
                     #item.setFlag(QGraphicsItem.ItemIsSelectable)
                     #item.setFlag(QGraphicsItem.ItemIsMovable)
                     #item.setFlag(QGraphicsItem.ItemIsFocusable)
@@ -140,7 +144,7 @@ class MainWindow(QMainWindow):
                 item.setPen(pen)
                 item.setBrush(brush)
                 scene.addItem(item)
-                cfg.myItemTab.append(item)
+                cfg.myItemTabHandler.append(item)
 
         cfg.myGrapicsScene = scene
         self.horizontalGroupBox = QGroupBox("Grid od LED block")

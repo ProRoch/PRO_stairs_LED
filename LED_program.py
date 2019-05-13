@@ -1,7 +1,7 @@
 from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from PyQt5 import QtCore
 
-
+import time
 import os
 from led_strip_driver import NeoPixel
 import config as cfg
@@ -13,6 +13,8 @@ program_List.append(program)
 program = {"name":"step by step: UP", "description": "single step lighting one by one in UP direction", "progName": "prog_02"}
 program_List.append(program)
 program = {"name":"step by step: DOWN", "description": "single step lighting one by one in DOWN direction", "progName": "prog_03"}
+program_List.append(program)
+program = {"name":"Single Led run", "description": "Prog10: single Led running from begin to end direction", "progName": "prog_10"}
 program_List.append(program)
 program = {"name":"single test action", "description": "single test action for temporary check", "progName": "prog_30"}
 program_List.append(program)
@@ -35,6 +37,7 @@ def initClassHolder():
     list_Classes.add_class(prog_01)
     list_Classes.add_class(prog_02)
     list_Classes.add_class(prog_03)
+    list_Classes.add_class(prog_10)
     list_Classes.add_class(prog_30)
     return list_Classes
 
@@ -79,6 +82,58 @@ class prog_03(LedProgram):
         cfg.ledStripLine._set_item(4,0x0000FF)
         cfg.ledStripLine.show()
 
+
+
+class QThread1(QtCore.QThread):
+
+    def __init__(self, parent=None):
+        QtCore.QThread.__init__(self, parent)
+
+    def run(self):
+        global ledStripLine
+        self.running = True
+        while self.running:
+            #self.sig1.emit(source_txt)
+            cfg.ledStripLine._set_item(self.mainPointer, self.mainColorBg)
+            #self.mainPointer += 1
+            #cfg.ledStripLine._set_item(self.mainPointer, self.mainColorChange)
+            #cfg.ledStripLine.show()
+            print("in thread.... ")
+            time.sleep(1)
+
+
+
+
+
+
+
+
+
+class prog_10(LedProgram):
+    def __init__(self, lenght, deltaTime):
+        super(prog_10, self).__init__(lenght, deltaTime)
+        print("se jestem prog-10")
+
+    def update_timer(self):
+        print("jestem in timer")
+        cfg.ledStripLine._set_item(self.mainPointer, self.mainColorBg)
+        self.mainPointer += 1
+        cfg.ledStripLine._set_item(self.mainPointer, self.mainColorChange)
+        cfg.ledStripLine.show()
+
+
+
+
+    def execute(self):
+        print("Prog_10 just started.")
+        #self.Timer.start(5000)  # 1 second timer
+        self.thread1 = QThread1()
+        self.thread1.start()
+
+
+
+
+
 class prog_30(LedProgram):
     def __init__(self, lenght, deltaTime):
         super(prog_30, self).__init__(lenght, deltaTime)
@@ -93,8 +148,8 @@ class prog_30(LedProgram):
         #cfg.myItemTab[1].setBrush(brush)
         pen2 = QPen(QColor(Qt.yellow))
         brush2 = QBrush(pen2.color().darker(150))
-        cfg.myItemTab[1].setPen(pen2)
-        cfg.myItemTab[1].setBrush(brush2)
+        cfg.myItemTabHandler[1].setPen(pen2)
+        cfg.myItemTabHandler[1].setBrush(brush2)
         """
         cfg.myItemTab[1].setFlag(QGraphicsItem.ItemIsSelectable)
         cfg.myItemTab[1].setFlag(QGraphicsItem.ItemIsMovable)
