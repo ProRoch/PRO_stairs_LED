@@ -1,4 +1,4 @@
-from PyQt5.QtGui import *
+from PyQt5 import QtGui
 from PyQt5 import QtCore
 
 import time
@@ -84,52 +84,21 @@ class prog_03(LedProgram):
 
 
 
-class QThread1(QtCore.QThread):
-
-    def __init__(self, parent=None):
-        QtCore.QThread.__init__(self, parent)
-
-    def run(self):
-        global ledStripLine
-        self.running = True
-        while self.running:
-            #self.sig1.emit(source_txt)
-            cfg.ledStripLine._set_item(self.mainPointer, self.mainColorBg)
-            #self.mainPointer += 1
-            #cfg.ledStripLine._set_item(self.mainPointer, self.mainColorChange)
-            #cfg.ledStripLine.show()
-            print("in thread.... ")
-            time.sleep(1)
-
-
-
-
-
-
-
-
-
 class prog_10(LedProgram):
     def __init__(self, lenght, deltaTime):
         super(prog_10, self).__init__(lenght, deltaTime)
         print("se jestem prog-10")
-
-    def update_timer(self):
-        print("jestem in timer")
-        cfg.ledStripLine._set_item(self.mainPointer, self.mainColorBg)
-        self.mainPointer += 1
-        cfg.ledStripLine._set_item(self.mainPointer, self.mainColorChange)
-        cfg.ledStripLine.show()
-
-
+        self.mainPointer = 0
+        self.mainColorBg = QtGui.QColor.yellow
+        self.mainColorChange = QtGui.QColor.red
 
 
     def execute(self):
         print("Prog_10 just started.")
-        #self.Timer.start(5000)  # 1 second timer
-        self.thread1 = QThread1()
-        self.thread1.start()
-
+        cfg.ledStripLine._set_item(self.mainPointer, 0x00FF00)
+        self.mainPointer = self.mainPointer +1
+        cfg.ledStripLine._set_item(self.mainPointer, 0x0000FF)
+        cfg.ledStripLine.show()
 
 
 
@@ -146,8 +115,8 @@ class prog_30(LedProgram):
         #brush = QBrush(pen.color().darker(100))
         #cfg.myItemTab[1].setPen(pen)
         #cfg.myItemTab[1].setBrush(brush)
-        pen2 = QPen(QColor(Qt.yellow))
-        brush2 = QBrush(pen2.color().darker(150))
+        pen2 = QtGui.QPen(QtGui.QColor(QtGui.Qt.yellow))
+        brush2 = QtGui.QBrush(pen2.color().darker(150))
         cfg.myItemTabHandler[1].setPen(pen2)
         cfg.myItemTabHandler[1].setBrush(brush2)
         """
@@ -160,3 +129,24 @@ class prog_30(LedProgram):
         cfg.myItemTab[4].setFlag(QGraphicsItem.ItemIsMovable)
         cfg.myItemTab[5].setFlag(QGraphicsItem.ItemIsMovable)
         """
+
+class QThread1(QtCore.QThread):
+    timeOut = QtCore.pyqtSignal()
+    def __init__(self, parent=None):
+        QtCore.QThread.__init__(self, parent)
+        self.running = True
+        self.counter = 5
+
+
+    def run(self):
+        print("I am in QThread1 thread.... ")
+        #while self.running:
+        while self.counter:
+            print(f"in thread.... {self.counter}")
+            time.sleep(1)
+            self.timeOut.emit()
+            #self.running = False
+            self.counter -= 1
+
+
+
