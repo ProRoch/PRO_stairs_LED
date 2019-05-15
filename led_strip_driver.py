@@ -73,7 +73,7 @@ class NeoPixel:
 
     def show(self):
         """ magics happenig. Find pushButton on mainWindows and change color"""
-        print(" ===== I am in show function ----")
+        #print(" ===== I am in show function ----")
         if self.brightness > 0.99:
             global myItemTab
             for i in range(len(cfg.myItemTabHandler)):
@@ -95,6 +95,12 @@ class NeoPixel:
         if value >> 24:
             raise ValueError("only bits 0->23 valid for integer input")
         self.stripTab[index] = value
+        if self.auto_write == True:
+            pen = QPen(QColor(value))
+            brush = QBrush(pen.color())
+            # brush = QBrush(pen.color().darker(100))
+            cfg.myItemTabHandler[index].setPen(pen)
+            cfg.myItemTabHandler[index].setBrush(brush)
 
     def fill(self, color):
         """Colors all pixels the given ***color***."""

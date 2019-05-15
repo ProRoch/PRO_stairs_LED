@@ -19,7 +19,7 @@ program_List.append(program)
 program = {"name":"single test action", "description": "single test action for temporary check", "progName": "prog_30"}
 program_List.append(program)
 
-cfg.ledStripLine = NeoPixel(11, 450, 3, 1.0, False, "RGB")
+cfg.ledStripLine = NeoPixel(11, 450, 3, 1.0, True, "RGB")
 cfg.ledStripLine.fill(0x000000)
 
 class ClassHolder(object):
@@ -84,6 +84,7 @@ class prog_03(LedProgram):
 
 
 
+
 class prog_10(LedProgram):
     def __init__(self, lenght, deltaTime):
         super(prog_10, self).__init__(lenght, deltaTime)
@@ -91,14 +92,19 @@ class prog_10(LedProgram):
         self.mainPointer = 0
         self.mainColorBg = QtGui.QColor.yellow
         self.mainColorChange = QtGui.QColor.red
+        self.myThread = QThread1()
+        self.myThread.timeOut.connect(self.updateTimer)
+        self.myThread.running = True
+        self.myThread.start()
 
-
-    def execute(self):
-        print("Prog_10 just started.")
-        cfg.ledStripLine._set_item(self.mainPointer, 0x00FF00)
-        self.mainPointer = self.mainPointer +1
-        cfg.ledStripLine._set_item(self.mainPointer, 0x0000FF)
-        cfg.ledStripLine.show()
+    def updateTimer(self):
+        #print("jestem in update_timer main")
+        cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x00FF00)
+        cfg.myLedPointerMain = cfg.myLedPointerMain + 1
+        cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x0000FF)
+        if cfg.myLedPointerMain +1 >= cfg.myLedInSingleRow * cfg.myLedRow:
+            cfg.myLedPointerMain = 0
+        #cfg.ledStripLine.show()
 
 
 
@@ -135,18 +141,14 @@ class QThread1(QtCore.QThread):
     def __init__(self, parent=None):
         QtCore.QThread.__init__(self, parent)
         self.running = True
-        self.counter = 5
+
 
 
     def run(self):
-        print("I am in QThread1 thread.... ")
-        #while self.running:
-        while self.counter:
-            print(f"in thread.... {self.counter}")
-            time.sleep(1)
+        print("New thread  QThread1 started... ")
+        while self.running:
+            time.sleep(0.005)
             self.timeOut.emit()
-            #self.running = False
-            self.counter -= 1
 
 
 

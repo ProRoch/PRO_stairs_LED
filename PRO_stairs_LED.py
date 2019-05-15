@@ -61,8 +61,10 @@ class MainWindow(QMainWindow):
 
         hLayout_main    = QHBoxLayout()
         vLayout_Config  = QVBoxLayout()
+        vLayout_ConfigParam  = QVBoxLayout()
         vLayout_LED     = QVBoxLayout()
         hLayout_main.addLayout(vLayout_Config)
+        hLayout_main.addLayout(vLayout_ConfigParam)
         hLayout_main.addLayout(vLayout_LED)
 
         qle = QLineEdit()
@@ -115,7 +117,9 @@ class MainWindow(QMainWindow):
 
         print("==================")
 
-
+    def createConfigParam(self, layout):
+        vLayout_ConfigParam
+        myLauout = QGroupBox("Grid od LED block")
 
 
     def createGridLayout(self):
@@ -176,9 +180,8 @@ class MainWindow(QMainWindow):
         print("btn start clicked.")
         listW = self.findChild(QListWidget, "SelectedProgList")
         programName = program_List[listW.currentRow()]["progName"]
+        cfg.myProgMain = self.progClassHolder[programName](self.ledStripLenght, self.deltaTime)
 
-        currProg = self.progClassHolder[programName](self.ledStripLenght, self.deltaTime)
-        currProg.execute()
 
 
     def btn_pause_clicked(self):
@@ -188,17 +191,9 @@ class MainWindow(QMainWindow):
 
     def btn_stop_clicked(self):
         print("btn stop clicked.")
-        listW = self.findChild(QListWidget, "SelectedProgList")
-        programName = program_List[listW.currentRow()]["progName"]
-        currProg = self.progClassHolder[programName](self.ledStripLenght, self.deltaTime)
-        #currProg.execute()
-        self.thread1 = QThread1()
-        self.thread1.timeOut.connect(currProg.execute)
-        self.thread1.running = True
-        self.thread1.start()
+        cfg.myProgMain.thread1.running = False
 
-    def prog10Update_timer(self):
-        print("jestem in update_timer main")
+
 
 
 
