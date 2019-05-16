@@ -1,27 +1,33 @@
 import config as cfg
-from PyQt5.QtGui import *
 import sys
 import types
-        #from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+
+from PyQt5 import QtWidgets, QtCore, QtGui
+
+#from PyQt5 import QtWidgets
+#from PyQt5 import QtCore
+#from PyQt5.QtGui import *
+
+
+
 from LED_program import *
+
 import led_strip_driver as led_driver
 
 
 color_LED_on = "#888800"
 
 
-class Btn(QPushButton):
-    expandable = pyqtSignal(int, int)
-    clicked = pyqtSignal()
-    ohno = pyqtSignal()
+class Btn(QtWidgets.QPushButton):
+    expandable = QtCore.pyqtSignal(int, int)
+    clicked = QtCore.pyqtSignal()
+    ohno = QtCore.pyqtSignal()
 
 
     def __init__(self, x, y, *args, **kwargs):
         super(Btn, self).__init__(*args, **kwargs)
 
-        self.setFixedSize(QSize(10, 10))
+        self.setFixedSize(QtCore.QSize(10, 10))
 
         self.x = x
         self.y = y
@@ -29,12 +35,12 @@ class Btn(QPushButton):
 
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.title = 'PyQt5 layout - Stairs LEDs lighting.'
         self.left = 100
-        self.top = 300
+        self.top = 50
         self.width = 1200
         self.height = 600
 #        self.xLED_size = 3
@@ -67,12 +73,12 @@ class MainWindow(QMainWindow):
         hLayout_main.addLayout(vLayout_ConfigParam)
         hLayout_main.addLayout(vLayout_LED)
 
+        ###==--vLayout_Config----GUI--layout1--------------------------
         qle = QLineEdit()
         listW = QListWidget()
         listW.setObjectName("SelectedProgList")
         listW.setSelectionMode(QAbstractItemView.SingleSelection)
         listW.itemSelectionChanged.connect(self.prog_list_update)
-
 
         btn_load_prog = QPushButton("Load Program")
         btn_load_prog.setObjectName("btn_load_prog")
@@ -104,9 +110,52 @@ class MainWindow(QMainWindow):
         vLayout_Config.addWidget(btn_load_prog)
         vLayout_Config.addWidget(txtb)
         vLayout_Config.addLayout(hLayout_control_btn)
+        ###==--end------end----vLayout_Config----GUI--layout1--------------------------
 
         self.createGridLayout()
         vLayout_LED.addWidget(self.horizontalGroupBox)
+
+
+
+        """
+        #### start  from do funkcji
+        #self.createConfigParam(vLayout_ConfigParam)
+        self.groupBox = QtWidgets.QGroupBox("Grid for Parameter.")
+        self.groupBox.setObjectName("groupBox")
+
+        self.gridLayoutWidget = QtWidgets.QWidget(self.groupBox)
+        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+
+        self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
+
+        self.label_2 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
+
+        self.label = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
+
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout.addWidget(self.lineEdit_2, 1, 1, 1, 1)
+
+        self.lineEdit = QtWidgets.QLineEdit(self.gridLayoutWidget)
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout.addWidget(self.lineEdit, 0, 1, 1, 1)
+
+        vLayout_ConfigParam.addWidget(self.groupBox)
+       # self.groupBox.setLayout(self.gridLayout)
+
+        #### end  from do funkcji
+
+        """
+
+
+
+
 
         w = QWidget()
         w.setLayout(hLayout_main)
@@ -118,8 +167,16 @@ class MainWindow(QMainWindow):
         print("==================")
 
     def createConfigParam(self, layout):
-        vLayout_ConfigParam
-        myLauout = QGroupBox("Grid od LED block")
+
+        layout = QGroupBox("Grid for Parameter.")
+        myGrid = QGridLayout()
+        lbl1 = QLabel()
+        qle = QLineEdit()
+        myGrid.addWidget(lbl1, 0,0)
+        myGrid.addWidget(qle, 0,1)
+        layout.setLayout(myGrid)
+
+
 
 
     def createGridLayout(self):
@@ -131,8 +188,8 @@ class MainWindow(QMainWindow):
         view.setMinimumWidth(cfg.myLedInSingleRow*  cfg.myLedDeltaX +  cfg.myLedDeltaX)
         view.setMinimumHeight(cfg.myLedRow * cfg.myLedDeltaY + cfg.myLedDeltaY)
 
-        pen = QPen(QColor(Qt.green))
-        brush = QBrush(pen.color().darker(150))
+        pen = QtGui.QPen(QtGui.QColor(QtCore.Qt.green))
+        brush = QtGui.QBrush(pen.color().darker(150))
         global mySingleLedShape, myItemTab, myLedWith, myLedHight, myLedDeltaX, myLedDeltaY
         for yi in range(cfg.myLedRow):
             for xi in range(cfg.myLedInSingleRow):
