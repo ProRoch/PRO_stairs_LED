@@ -191,7 +191,7 @@ class MainWindow(QMainWindow):
 
     def btn_stop_clicked(self):
         print("btn stop clicked.")
-        cfg.myProgMain.thread1.running = False
+        cfg.myProgMain.myThread.running = False
 
 
 
