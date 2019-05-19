@@ -68,6 +68,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnPause.clicked.connect(self.btn_pause_clicked)
         self.btnStop.clicked.connect(self.btn_stop_clicked)
         self.btnExit.clicked.connect(self.btn_exit)
+        self.btnNewLedConfig.clicked.connect(self.btn_NewLedConfig)
         self.initWidgets()
         self.show()
 
@@ -84,7 +85,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.myGraphicsView.setMinimumWidth(cfg.myLedInSingleRow*  cfg.myLedDeltaX +  cfg.myLedDeltaX)
         self.myGraphicsView.setMinimumHeight(cfg.myLedRow * cfg.myLedDeltaY + cfg.myLedDeltaY)
-        self.setMinimumWidth(280+self.myGraphicsView.minimumWidth())
+        self.setMinimumWidth(700+self.myGraphicsView.minimumWidth())
         pen = QtGui.QPen(QtGui.QColor(QtCore.Qt.green))
         brush = QtGui.QBrush(pen.color().darker(150))
         global mySingleLedShape, myItemTab, myLedWith, myLedHight, myLedDeltaX, myLedDeltaY
@@ -150,6 +151,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def btn_exit(self):
         sys.exit()
+
+    def btn_NewLedConfig(self):
+        if self.rbtnLedShapeS.isChecked():
+            cfg.mySingleLedShape = 1
+        elif self.rbtnLedShapeR.isChecked():
+            cfg.mySingleLedShape = 0
+        tmpDeltaX = int(self.ediDeltaX.text())
+        if 0< int(tmpDeltaX)  and int(tmpDeltaX) < 100 :
+            cfg.myLedDeltaX = tmpDeltaX + cfg.myLedWith
+
+        tmpDeltaY = int(self.ediDeltaY.text())
+        if 0< int(tmpDeltaY)  and int(tmpDeltaY) < 100 :
+            cfg.myLedDeltaY = tmpDeltaY + cfg.myLedHight
+        tmpLedInRow = int(self.ediLedInRow.text())
+        if 0< int(tmpLedInRow)  and int(tmpLedInRow) < 100 :
+            cfg.myLedInSingleRow = tmpLedInRow
+
+        tmpNumberRow = int(self.ediNumberRow.text())
+        if 0< int(tmpNumberRow)  and int(tmpNumberRow) < 30 :
+            cfg.myLedRow = tmpNumberRow
+        self.createGridLayout()
 
 
     class ClassHolder(object):
