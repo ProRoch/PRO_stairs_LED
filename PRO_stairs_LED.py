@@ -2,12 +2,17 @@ import config as cfg
 import sys
 import types
 
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 from PRO_mainLayout import Ui_MainWindow
-#from PyQt5 import QtWidgets
-#from PyQt5 import QtCore
-#from PyQt5.QtGui import *
+#
 
+COLORS = [
+    '#000000', '#82817f', '#820300', '#868417', '#007e03', '#037e7b', '#040079',
+    '#81067a', '#7f7e45', '#05403c', '#0a7cf6', '#093c7e', '#7e07f9', '#7c4002',
+
+    '#ffffff', '#c1c1c1', '#f70406', '#fffd00', '#08fb01', '#0bf8ee', '#0000fa',
+    '#b92fc2', '#fffc91', '#00fd83', '#87f9f9', '#8481c4', '#dc137d', '#fb803c',
+]
 
 
 from LED_program import *
@@ -128,6 +133,44 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for prog in program_List :
             listW.addItem(prog["name"])
 
+        # Setup the color selection buttons.
+        self.primaryButton.pressed.connect(lambda: self.choose_color(self.set_primary_color))
+        self.secondaryButton.pressed.connect(lambda: self.choose_color(self.set_secondary_color))
+
+        # Initialize button colours.
+        for n, hex in enumerate(COLORS, 1):
+            btn = getattr(self, 'colorButton_%d' % n)
+            btn.setStyleSheet('QPushButton { background-color: %s; }' % hex)
+            btn.hex = hex  # For use in the event below
+
+            def patch_mousePressEvent(self_, e):
+                if e.button() == Qt.LeftButton:
+                    print(self_.hex)
+                    cfg.myColorPrimary = (self_.hex)
+
+                elif e.button() == Qt.RightButton:
+                    cfg.myColorBg = (self_.hex)
+
+            btn.mousePressEvent = types.MethodType(patch_mousePressEvent, btn)
+
+    def choose_color(self, callback):
+        dlg = QColorDialog()
+        if dlg.exec():
+            callback( dlg.selectedColor().name() )
+
+    def set_primary_color(self, hex):
+        #self.canvas.set_primary_color(hex)
+        print(f"form promary color hex {hex}")
+        self.lineEdit_6.setText( hex)
+        self.label_6.setText("primary color")
+        cfg.myColorPrimary = (hex)
+        self.primaryButton.setStyleSheet('QPushButton { background-color: %s; }' % hex)
+
+    def set_secondary_color(self, hex):
+        #self.canvas.set_secondary_color(hex)
+        cfg.myColorBg = (hex)
+        self.secondaryButton.setStyleSheet('QPushButton { background-color: %s; }' % hex)
+
     def btn_load_prog_clicked(self):
         print("btn load_prog clicked.")
 
@@ -171,6 +214,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         tmpNumberRow = int(self.ediNumberRow.text())
         if 0< int(tmpNumberRow)  and int(tmpNumberRow) < 30 :
             cfg.myLedRow = tmpNumberRow
+        cfg.myLedPointerMain = 0    # reset pointer
         self.createGridLayout()
 
 

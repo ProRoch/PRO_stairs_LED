@@ -16,3 +16,6 @@ myLedDeltaY = 50            #==-- space in pix for 1 Led + 1 break in Y
 #Program parameter
 myProgMain = False          # ==-- handler for current program
 myLedPointerMain = 0
+
+myColorPrimary = 0x000000
+myColorBg = 0xFFFFFF

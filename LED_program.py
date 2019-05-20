@@ -99,9 +99,13 @@ class prog_10(LedProgram):
 
     def updateTimer(self):
         #print("jestem in update_timer main")
-        cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x00FF00)
+        #cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x00FF00)
+        print(f"from rogram print color primary{cfg.myColorPrimary}")
+        myClorBg = str(cfg.myColorBg)
+        cfg.ledStripLine._set_item(cfg.myLedPointerMain, myClorBg )
         cfg.myLedPointerMain = cfg.myLedPointerMain + 1
-        cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x0000FF)
+        #cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x0000FF)
+        cfg.ledStripLine._set_item(cfg.myLedPointerMain, str(cfg.myColorPrimary))
         if cfg.myLedPointerMain +1 >= cfg.myLedInSingleRow * cfg.myLedRow:
             cfg.myLedPointerMain = 0
         #cfg.ledStripLine.show()
