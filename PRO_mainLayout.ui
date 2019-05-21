@@ -238,7 +238,7 @@
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
-         <string>Color  &amp;  Time Management</string>
+         <string>Color  and  Time    Management</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
@@ -1182,9 +1182,27 @@
                 </widget>
                </item>
                <item>
-                <widget class="QSlider" name="verticalSlider_4">
+                <widget class="QSlider" name="vSliderV1">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>150</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>5</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>12</number>
+                 </property>
+                 <property name="value">
+                  <number>10</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::TicksBothSides</enum>
                  </property>
                 </widget>
                </item>
@@ -1201,12 +1219,12 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>V1</string>
+                  <string>V2</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QSlider" name="verticalSlider_3">
+                <widget class="QSlider" name="vSliderV2">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -1225,12 +1243,12 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>V1</string>
+                  <string>V3</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QSlider" name="verticalSlider_2">
+                <widget class="QSlider" name="vSliderV3">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -1249,12 +1267,12 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>V1</string>
+                  <string>V4</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QSlider" name="verticalSlider_5">
+                <widget class="QSlider" name="vSliderV4">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>

@@ -136,6 +136,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Setup the color selection buttons.
         self.primaryButton.pressed.connect(lambda: self.choose_color(self.set_primary_color))
         self.secondaryButton.pressed.connect(lambda: self.choose_color(self.set_secondary_color))
+        self.vSliderV1.valueChanged.connect(self.vSliderV1Changed)
 
         # Initialize button colours.
         for n, hex in enumerate(COLORS, 1):
@@ -157,10 +158,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 elif event.type() == QtCore.QEvent.MouseButtonDblClick:
                     # If image is double clicked, remove bar.
                     print('two')
-
-
-
-            btn.mousePressEvent = types.MethodType(patch_mousePressEvent, btn)
+            btn.mousePressEvent = types.MethodType(patch_mousePressEvent, btn)  # nadpisywanie metody !!!!!
 
     def choose_color(self, callback):
         dlg = QColorDialog()
@@ -178,6 +176,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def set_secondary_color(self, hex):
         self.secondaryButton.setStyleSheet('QPushButton { background-color: %s; }' % hex)
         cfg.myColorBg =  int(hex.replace('#',''),16 )
+
+    def vSliderV1Changed(self):
+        newValue = self.vSliderV1.value()
+        print(f"new value: {newValue}")
+        cfg.myDeltaTime = newValue
+
 
     def btn_load_prog_clicked(self):
         #self.canvas.set_secondary_color(hex)

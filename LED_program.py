@@ -98,14 +98,9 @@ class prog_10(LedProgram):
         self.myThread.start()
 
     def updateTimer(self):
-        #print("jestem in update_timer main")
-        #cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x00FF00)
-        print(f"from program print color primary {cfg.myColorPrimary}")
-        print(f"from program print color Bg {cfg.myColorBg}")
         myClorBg = int(cfg.myColorBg)
         cfg.ledStripLine._set_item(cfg.myLedPointerMain, myClorBg )
         cfg.myLedPointerMain = cfg.myLedPointerMain + 1
-        #cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x0000FF)
         cfg.ledStripLine._set_item(cfg.myLedPointerMain, str(cfg.myColorPrimary))
         if cfg.myLedPointerMain +1 >= cfg.myLedInSingleRow * cfg.myLedRow:
             cfg.myLedPointerMain = 0
@@ -152,7 +147,7 @@ class QThread1(QtCore.QThread):
     def run(self):
         print("New thread  QThread1 started... ")
         while self.running:
-            time.sleep(0.005)
+            time.sleep(cfg.myDeltaTime * 0.001)
             self.timeOut.emit()
 
 

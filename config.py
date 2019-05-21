@@ -19,3 +19,4 @@ myLedPointerMain = 0
 
 myColorPrimary = 0x000000
 myColorBg = 0xFFFFFF
+myDeltaTime = 10
