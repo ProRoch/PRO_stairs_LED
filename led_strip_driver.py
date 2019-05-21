@@ -87,7 +87,9 @@ class NeoPixel:
         else:
             pass
 
-    def _set_item(self, index, value):
+    def _set_item(self, index, givenColor):
+        value = int(givenColor)
+        print(f"from set_item: value: {value}")
         if index < 0:
             index += len(self)
         if index >= len(self.stripTab) or index < 0:
@@ -97,6 +99,7 @@ class NeoPixel:
         self.stripTab[index] = value
         if self.auto_write == True:
             pen = QPen(QColor(value))
+            print(f"from set_item ___pen{pen.color()}")
             brush = QBrush(pen.color())
             # brush = QBrush(pen.color().darker(100))
             cfg.myItemTabHandler[index].setPen(pen)

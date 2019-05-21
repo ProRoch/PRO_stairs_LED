@@ -100,8 +100,9 @@ class prog_10(LedProgram):
     def updateTimer(self):
         #print("jestem in update_timer main")
         #cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x00FF00)
-        print(f"from rogram print color primary{cfg.myColorPrimary}")
-        myClorBg = str(cfg.myColorBg)
+        print(f"from program print color primary {cfg.myColorPrimary}")
+        print(f"from program print color Bg {cfg.myColorBg}")
+        myClorBg = int(cfg.myColorBg)
         cfg.ledStripLine._set_item(cfg.myLedPointerMain, myClorBg )
         cfg.myLedPointerMain = cfg.myLedPointerMain + 1
         #cfg.ledStripLine._set_item(cfg.myLedPointerMain, 0x0000FF)

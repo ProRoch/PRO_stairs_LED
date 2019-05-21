@@ -143,13 +143,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             btn.setStyleSheet('QPushButton { background-color: %s; }' % hex)
             btn.hex = hex  # For use in the event below
 
-            def patch_mousePressEvent(self_, e):
-                if e.button() == Qt.LeftButton:
-                    print(self_.hex)
-                    cfg.myColorPrimary = (self_.hex)
+            def patch_mousePressEvent(self_, event):
+                if event.type() == QtCore.QEvent.MouseButtonPress:
+                    if event.button() == QtCore.Qt.LeftButton:
+                        cfg.myColorPrimary = int(self_.hex.replace('#', ''), 16)
+                        self.primaryButton.setStyleSheet('QPushButton { background-color: %s; }' % self_.hex)
+                        # If image is left clicked, display a red bar.
+                        print('one left')
+                    elif event.button() == QtCore.Qt.RightButton:
+                        cfg.myColorBg = int(self_.hex.replace('#', ''), 16)
+                        self.secondaryButton.setStyleSheet('QPushButton { background-color: %s; }' % self_.hex)
+                        print('one right')
+                elif event.type() == QtCore.QEvent.MouseButtonDblClick:
+                    # If image is double clicked, remove bar.
+                    print('two')
 
-                elif e.button() == Qt.RightButton:
-                    cfg.myColorBg = (self_.hex)
+
 
             btn.mousePressEvent = types.MethodType(patch_mousePressEvent, btn)
 
@@ -160,18 +169,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def set_primary_color(self, hex):
         #self.canvas.set_primary_color(hex)
-        print(f"form promary color hex {hex}")
+        print(f"form primary color hex {hex}")
         self.lineEdit_6.setText( hex)
         self.label_6.setText("primary color")
-        cfg.myColorPrimary = (hex)
         self.primaryButton.setStyleSheet('QPushButton { background-color: %s; }' % hex)
+        cfg.myColorPrimary =  int(hex.replace('#',''),16 )
 
     def set_secondary_color(self, hex):
-        #self.canvas.set_secondary_color(hex)
-        cfg.myColorBg = (hex)
         self.secondaryButton.setStyleSheet('QPushButton { background-color: %s; }' % hex)
+        cfg.myColorBg =  int(hex.replace('#',''),16 )
 
     def btn_load_prog_clicked(self):
+        #self.canvas.set_secondary_color(hex)
         print("btn load_prog clicked.")
 
     def btn_start_clicked(self):
