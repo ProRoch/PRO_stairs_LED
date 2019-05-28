@@ -1103,6 +1103,9 @@
               </spacer>
              </item>
              <item>
+              <widget class="QLineEdit" name="lediColor"/>
+             </item>
+             <item>
               <layout class="QHBoxLayout" name="horizontalLayout_9">
                <item>
                 <widget class="QLineEdit" name="lineEdit_6">
@@ -1225,8 +1228,26 @@
                </item>
                <item>
                 <widget class="QSlider" name="vSliderV2">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>20</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>2</number>
+                 </property>
+                 <property name="value">
+                  <number>10</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::TicksAbove</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>3</number>
                  </property>
                 </widget>
                </item>
@@ -1249,6 +1270,12 @@
                </item>
                <item>
                 <widget class="QSlider" name="vSliderV3">
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>255</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -1323,7 +1350,20 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QGraphicsView" name="myGraphicsView"/>
+          <widget class="QGraphicsView" name="myGraphicsView">
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>200</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>2000</width>
+             <height>1000</height>
+            </size>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -1530,6 +1570,12 @@
                    <width>20</width>
                    <height>16</height>
                   </size>
+                 </property>
+                 <property name="inputMask">
+                  <string extracomment="Led in one line"/>
+                 </property>
+                 <property name="text">
+                  <string>30</string>
                  </property>
                  <property name="maxLength">
                   <number>30</number>

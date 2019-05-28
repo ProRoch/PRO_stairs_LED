@@ -84,7 +84,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #self._timer.start(5000)  # 1 second timer
 
 
+
     def createGridLayout(self):
+        cfg.myItemTabHandler = []
         scene = QGraphicsScene()
         self.myGraphicsView.setScene(scene)
 
@@ -137,6 +139,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.primaryButton.pressed.connect(lambda: self.choose_color(self.set_primary_color))
         self.secondaryButton.pressed.connect(lambda: self.choose_color(self.set_secondary_color))
         self.vSliderV1.valueChanged.connect(self.vSliderV1Changed)
+        self.vSliderV2.valueChanged.connect(self.vSliderV2Changed)
 
         # Initialize button colours.
         for n, hex in enumerate(COLORS, 1):
@@ -181,6 +184,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         newValue = self.vSliderV1.value()
         print(f"new value: {newValue}")
         cfg.myDeltaTime = newValue
+        self.lineEdit_5.setText(str(cfg.myDeltaTime))
+
+    def vSliderV2Changed(self):
+        cfg.myDeltaTime = self.vSliderV1.value() + self.vSliderV2.value() - 10
+        if cfg.myDeltaTime < 1 : cfg.myDeltaTime = 1
+        self.lineEdit_5.setText(str(cfg.myDeltaTime))
 
 
     def btn_load_prog_clicked(self):
@@ -194,9 +203,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         cfg.myProgMain = self.progClassHolder[programName](self.ledStripLenght, self.deltaTime)
 
 
+    def wheel(self, pos):
+        """Generate rainbow colors across 0-255 positions."""
+        if pos < 85:
+            return rgbToInt(pos * 3, 255 - pos * 3, 0)
+        elif pos < 170:
+            pos -= 85
+            return rgbToInt(255 - pos * 3, 0, pos * 3)
+        else:
+            pos -= 170
+            return rgbToInt(0, pos * 3, 255 - pos * 3)
 
     def btn_pause_clicked(self):
         print("btn pause clicked.")
+        newValue = self.vSliderV3.value()
+        myColor = self.wheel(newValue)
+        self.lediColor.setText(str(myColor))
+
 
 
 
@@ -228,7 +251,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if 0< int(tmpNumberRow)  and int(tmpNumberRow) < 30 :
             cfg.myLedRow = tmpNumberRow
         cfg.myLedPointerMain = 0    # reset pointer
+        self.ledStripLenght = cfg.myLedInSingleRow * cfg.myLedRow
         self.createGridLayout()
+        initLedStrip()
 
 
     class ClassHolder(object):
