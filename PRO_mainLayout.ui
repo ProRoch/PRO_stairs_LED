@@ -1381,17 +1381,20 @@
              <item>
               <widget class="QRadioButton" name="rbtnLedShapeS">
                <property name="text">
-                <string>square</string>
+                <string>dot</string>
                </property>
                <property name="checked">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QRadioButton" name="rbtnLedShapeR">
                <property name="text">
-                <string>dot</string>
+                <string>squere</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -1429,7 +1432,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>30</string>
+                  <string>15</string>
                  </property>
                 </widget>
                </item>
@@ -1462,7 +1465,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>50</string>
+                  <string>30</string>
                  </property>
                 </widget>
                </item>

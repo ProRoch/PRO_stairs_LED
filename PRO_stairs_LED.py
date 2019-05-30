@@ -102,11 +102,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     item = QGraphicsRectItem( (cfg.myLedInSingleRow* cfg.myLedDeltaX)- xi * cfg.myLedDeltaX,
                                               (cfg.myLedRow* cfg.myLedDeltaY)-yi * cfg.myLedDeltaY,
                                               cfg.myLedWith, cfg.myLedHight)
-                    #item.setFlag(QGraphicsItem.ItemIsSelectable)
-                    #item.setFlag(QGraphicsItem.ItemIsMovable)
-                    #item.setFlag(QGraphicsItem.ItemIsFocusable)
                 else:
-                    item = QGraphicsEllipseItem(xi * cfg.myLedDeltaX, yi * cfg.myLedDeltaY, cfg.myLedWith, cfg.myLedHight)
+#                    item = QGraphicsEllipseItem(xi * cfg.myLedDeltaX, yi * cfg.myLedDeltaY, cfg.myLedWith, cfg.myLedHight)
+                    item = QGraphicsEllipseItem(  (cfg.myLedInSingleRow* cfg.myLedDeltaX)- xi * cfg.myLedDeltaX,
+                                              (cfg.myLedRow* cfg.myLedDeltaY)-yi * cfg.myLedDeltaY,
+                                              cfg.myLedWith, cfg.myLedHight)
                 item.setPen(pen)
                 item.setBrush(brush)
                 scene.addItem(item)
@@ -182,7 +182,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def vSliderV1Changed(self):
         newValue = self.vSliderV1.value()
-        print(f"new value: {newValue}")
+        #print(f"new value: {newValue}")
         cfg.myDeltaTime = newValue
         self.lineEdit_5.setText(str(cfg.myDeltaTime))
 
@@ -237,11 +237,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         elif self.rbtnLedShapeR.isChecked():
             cfg.mySingleLedShape = 0
         tmpDeltaX = int(self.ediDeltaX.text())
-        if 0< int(tmpDeltaX)  and int(tmpDeltaX) < 100 :
+        if 0< int(tmpDeltaX)  and int(tmpDeltaX) < 60 :
             cfg.myLedDeltaX = tmpDeltaX + cfg.myLedWith
 
         tmpDeltaY = int(self.ediDeltaY.text())
-        if 0< int(tmpDeltaY)  and int(tmpDeltaY) < 100 :
+        if 0< int(tmpDeltaY)  and int(tmpDeltaY) < 60 :
             cfg.myLedDeltaY = tmpDeltaY + cfg.myLedHight
         tmpLedInRow = int(self.ediLedInRow.text())
         if 0< int(tmpLedInRow)  and int(tmpLedInRow) < 100 :

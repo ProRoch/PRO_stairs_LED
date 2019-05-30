@@ -8,7 +8,7 @@ import config as cfg
 from PyQt5.QtWidgets import *
 
 program_List = []
-program = {"name":"running light", "description": "one led moving from begin to end", "progName": "prog_01"}
+program = {"name":"step by step: down", "description": "single step lighting one by one in DOWN direction", "progName": "prog_01"}
 program_List.append(program)
 program = {"name":"step by step: UP", "description": "single step lighting one by one in UP direction", "progName": "prog_02"}
 program_List.append(program)
@@ -16,7 +16,7 @@ program = {"name":"rainbow", "description": "rainbow on all LEDs", "progName": "
 program_List.append(program)
 program = {"name":"Single Led run", "description": "Prog10: single Led running from begin to end direction", "progName": "prog_10"}
 program_List.append(program)
-program = {"name":"single test action", "description": "single test action for temporary check", "progName": "prog_30"}
+program = {"name":"developer action - single action", "description": "single test action for temporary check in developer mode", "progName": "prog_30"}
 program_List.append(program)
 
 
@@ -61,35 +61,6 @@ class LedProgram:
     strip_lenght = 1
 
     def __init__(self, strip_lenght, deltaTime, *args, **kwargs):
-
-        self.time = deltaTime
-        self.strip_lenght = strip_lenght
-
-class prog_01(LedProgram):
-    def __init__(self, lenght, deltaTime):
-        super(prog_01, self).__init__(lenght, deltaTime)
-        print("se jestem prog-01")
-
-    def execute(self):
-        print("Prog_1 just started.")
-        cfg.ledStripLine.fill(0xFF0000)
-        cfg.ledStripLine.show()
-
-class prog_02(LedProgram):
-    def __init__(self, lenght, deltaTime):
-        super(prog_02, self).__init__(lenght, deltaTime)
-        print("se jestem prog-02")
-
-    def execute(self):
-        print("Prog_2 just started.")
-        cfg.ledStripLine._set_item(4,0x00FF00)
-        cfg.ledStripLine.show()
-
-
-class prog_03(LedProgram):
-    def __init__(self, lenght, deltaTime):
-        super(prog_03, self).__init__(lenght, deltaTime)
-        print("se jestem prog-03")
         self.mainPointer = 0
         self.mainColorBg = QtGui.QColor.yellow
         self.mainColorChange = QtGui.QColor.red
@@ -97,6 +68,49 @@ class prog_03(LedProgram):
         self.myThread.timeOut.connect(self.updateTimer)
         self.myThread.running = True
         self.myThread.start()
+        self.time = deltaTime
+        self.strip_lenght = strip_lenght
+
+class prog_01(LedProgram):
+    def __init__(self, lenght, deltaTime):
+        super(prog_01, self).__init__(lenght, deltaTime)
+        print("se jestem prog-01")
+        self.iteration_row_curr = 0
+
+    def updateTimer(self):
+        for ledPosition in range(self.iteration_row_curr * cfg.myLedInSingleRow + cfg.myLedInSingleRow , self.iteration_row_curr * cfg.myLedInSingleRow , -1):
+            cfg.ledStripLine._set_item(ledPosition, cfg.myColorBg)
+
+        self.iteration_row_curr -= 1
+        if self.iteration_row_curr < 0:
+            self.iteration_row_curr = cfg.myLedRow -1
+
+        for ledPosition in range(self.iteration_row_curr * cfg.myLedInSingleRow + cfg.myLedInSingleRow, self.iteration_row_curr * cfg.myLedInSingleRow , -1):
+            cfg.ledStripLine._set_item(ledPosition, cfg.myColorPrimary)
+
+
+class prog_02(LedProgram):
+    def __init__(self, lenght, deltaTime):
+        super(prog_02, self).__init__(lenght, deltaTime)
+        print("se jestem prog-02")
+        self.iteration_row_curr = 0
+
+
+    def updateTimer(self):
+        for ledPosition in range(self.iteration_row_curr * cfg.myLedInSingleRow , self.iteration_row_curr * cfg.myLedInSingleRow + cfg.myLedInSingleRow):
+            cfg.ledStripLine._set_item(ledPosition, cfg.myColorBg)
+        self.iteration_row_curr += 1
+        if self.iteration_row_curr >=  cfg.myLedRow:
+            self.iteration_row_curr = 0
+        for ledPosition in range(self.iteration_row_curr * cfg.myLedInSingleRow , self.iteration_row_curr * cfg.myLedInSingleRow + cfg.myLedInSingleRow):
+            cfg.ledStripLine._set_item(ledPosition, cfg.myColorPrimary)
+
+
+
+class prog_03(LedProgram):
+    def __init__(self, lenght, deltaTime):
+        super(prog_03, self).__init__(lenght, deltaTime)
+        print("se jestem prog-03")
         self.iteration_X_Limit = 256
         self.iteration_X_curr = 0
         self.iteration_Y_Limit = len(cfg.ledStripLine)-1
@@ -131,27 +145,10 @@ class prog_03(LedProgram):
 
 
 
-
-
-    #int(self_.hex.replace('#', ''), 16)
-
-    def rainbow(strip, wait_ms=20, iterations=1):
-        """Draw rainbow that fades across all pixels at once."""
-        pass
-
-
-
 class prog_10(LedProgram):
     def __init__(self, lenght, deltaTime):
         super(prog_10, self).__init__(lenght, deltaTime)
         print("se jestem prog-10")
-        self.mainPointer = 0
-        self.mainColorBg = QtGui.QColor.yellow
-        self.mainColorChange = QtGui.QColor.red
-        self.myThread = QThread1()
-        self.myThread.timeOut.connect(self.updateTimer)
-        self.myThread.running = True
-        self.myThread.start()
 
     def updateTimer(self):
         myClorBg = int(cfg.myColorBg)
